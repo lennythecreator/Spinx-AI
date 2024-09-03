@@ -1,113 +1,144 @@
-import Image from "next/image";
-
-export default function Home() {
+import { Button } from "@/components/ui/button"
+import { MessageCircle, Rocket, Compass, Users } from "lucide-react"
+import Link from "next/link"
+export default function Component() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    <div className="flex flex-col min-h-screen">
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+        <Link className="flex items-center justify-center" href="#"> 
+          
+          <span className="ml-2 text-2xl font-bold text-primary sm:flex-row"> 🦁 Spinx-AI</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
+            Features
+          </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#how-it-works">
+            How It Works
+          </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
+            Testimonials
+          </Link>
+        </nav>
+      </header>
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
+                  Discover Your Perfect Career Path
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-200 md:text-xl">
+                  Let our AI-powered chatbot guide you towards your dream career. Personalized advice for college students, by college students.
+                </p>
+              </div>
+              <div className="w-full max-w-sm space-y-2">
+                <form className="flex space-x-2">
+                  
+                  <Button className="bg-white text-primary hover:bg-gray-100 mx-auto" type="submit">
+                    <Link href="/mychat">Get Started</Link>
+                  </Button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32" id="features">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Why Choose Spinx-AI?</h2>
+            <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+              <div className="flex flex-col items-center text-center">
+                <MessageCircle className="h-12 w-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-2">24/7 Availability</h3>
+                <p className="text-gray-500">Get career advice anytime, anywhere. Our bot never sleeps!</p>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <Compass className="h-12 w-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-2">Personalized Guidance</h3>
+                <p className="text-gray-500">Tailored advice based on your skills, interests, and goals.</p>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <Users className="h-12 w-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-2">Industry Insights</h3>
+                <p className="text-gray-500">Stay updated with the latest trends and opportunities in various fields.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100" id="how-it-works">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">How It Works</h2>
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="flex flex-col items-center text-center p-4 bg-white rounded-lg shadow-lg">
+                <div className="rounded-full bg-primary text-white w-12 h-12 flex items-center justify-center mb-4 text-xl font-bold">1</div>
+                <h3 className="text-xl font-bold mb-2">Sign Up</h3>
+                <p className="text-gray-500">Create your account and tell us about your interests and goals.</p>
+              </div>
+              <div className="flex flex-col items-center text-center p-4 bg-white rounded-lg shadow-lg">
+                <div className="rounded-full bg-primary text-white w-12 h-12 flex items-center justify-center mb-4 text-xl font-bold">2</div>
+                <h3 className="text-xl font-bold mb-2">Chat with Spinx-AI</h3>
+                <p className="text-gray-500">Engage in a conversation with our AI to explore career options.</p>
+              </div>
+              <div className="flex flex-col items-center text-center p-4 bg-white rounded-lg shadow-lg">
+                <div className="rounded-full bg-primary text-white w-12 h-12 flex items-center justify-center mb-4 text-xl font-bold">3</div>
+                <h3 className="text-xl font-bold mb-2">Get Personalized Advice</h3>
+                <p className="text-gray-500">Receive tailored recommendations and actionable steps for your career journey.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32" id="testimonials">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">What Students Say</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
+                <p className="text-gray-500 mb-4">"Spinx-AI helped me discover a career path I never even considered. I'm now interning at my dream company!"</p>
+                <p className="font-bold">- Alex, Computer Science Major</p>
+              </div>
+              <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
+                <p className="text-gray-500 mb-4">"The personalized advice I received was spot on. It's like having a career counselor in my pocket!"</p>
+                <p className="font-bold">- Sam, Business Major</p>
+              </div>
+              <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
+                <p className="text-gray-500 mb-4">"I was undecided about my major, but Spinx-AI helped me explore options and find my passion."</p>
+                <p className="font-bold">- Jamie, Undeclared</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-white">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Ready to Shape Your Future?</h2>
+                <p className="mx-auto max-w-[600px] text-gray-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Join thousands of students who have found their path with Spinx-AI. Your journey starts here.
+                </p>
+              </div>
+              <div className="w-full max-w-sm space-y-2">
+                <form className="flex space-x-2">
+                  
+                  <Button className="bg-white text-primary hover:bg-gray-100 mx-auto" type="submit">
+                  <Link href="/mychat">Get Started</Link>
+                  </Button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+        <p className="text-xs text-gray-500">© 2023 Spinx-AI Inc. All rights reserved.</p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-xs hover:underline underline-offset-4" href="#">
+            Terms of Service
+          </Link>
+          <Link className="text-xs hover:underline underline-offset-4" href="#">
+            Privacy
+          </Link>
+        </nav>
+      </footer>
+    </div>
+  )
 }

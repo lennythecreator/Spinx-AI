@@ -1,5 +1,6 @@
 "use client";
 import React from 'react'
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useChat } from 'ai/react';
 import JobCard from '@/components/ui/JobCard';
@@ -8,15 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faPaperPlane, faRobot, faUser } from '@fortawesome/free-solid-svg-icons';
 import {ToolInvocation} from 'ai';
 import Link from 'next/link';
-// ok
-// import { useLink } from '../customHooks';
-// export const JobButton = ()=>{
-//   const {link} = useLink();
-//   console.log(link);
-//   return(
-//     <a href={link}>Apply here</a>
-//   )
-// }
+
 export default function Page() {
   const { messages, input, stop, isLoading, setMessages, handleInputChange, handleSubmit } = useChat()
   const handleDelete = (id) => {
@@ -34,8 +27,13 @@ export default function Page() {
 
   return (
     <div className='flex flex-col h-full'>
-        <header className='flex flex-row items-center p-4'>
-          <h1 className='font-semibold text-xl'>🦁 Spinx</h1>
+        <header className='flex flex-row items-center p-4 border-b'>
+        <Link className="flex items-center justify-center" href="#"> 
+          
+          <span className=" flex gap-2 items-center ml-2 text-2xl font-bold text-primary sm:flex-row"> <Image src='/lion_head_silhouette_ByzJz.svg'
+          height={30} width={30} alt="lion head silhouette"
+          /> Spinx-AI</span>
+        </Link>
           <nav className='ml-auto '>
             <ul className='flex flex-row gap-4'>
               <li><a href="/">Home</a></li>
@@ -55,7 +53,9 @@ export default function Page() {
                 ) : (
                   <>
                     {/* <FontAwesomeIcon icon={faRobot} className='mr-2' /> */}
-                    <span className='text-xl'>🦁</span>
+                    <span className=" flex gap-2 items-center ml-2 text-2xl font-bold text-primary sm:flex-row"> <Image src='/lion_head_silhouette_ByzJz.svg'
+          height={25} width={25} alt="lion head silhouette"
+          /> Spinx-AI</span>
                     <span className='mx-2'>{m.content}</span>
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>

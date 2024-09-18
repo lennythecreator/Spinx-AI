@@ -44,7 +44,7 @@ export default function Page() {
         </header>
         <div className='flex flex-col h-full w-[70vw] overflow-y-auto mx-auto'>
           {messages.map(m => (
-              <div key={m.id} className={`whitespace-pre-wrap my-2 shadow-sm border ${m.role === 'user' ? 'bg-white-100' : 'bg-slate-300'} rounded-xl p-4`}>
+              <div key={m.id} className={`whitespace-pre-wrap my-2 shadow-sm border ${m.role === 'user' ? 'bg-white-100' : 'bg-slate-200'} rounded-xl p-4`}>
                 {m.role === 'user' ? (
                   <>
                     <FontAwesomeIcon icon={faUser} className='mr-2' />
@@ -56,14 +56,14 @@ export default function Page() {
                     <div className='flex mb-2'>
                       <Image src='/lion_head_silhouette_ByzJz.svg'
             height={25} width={25} alt="lion head silhouette"
-            className='mr-2'/>
+            className='mr-2 mb-auto'/>
                       <span className='mx-2'>{m.content}</span>
                     </div>
                     
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
                          <span>{m.toolInvocations[0].result.message}</span>
-                         <a href={m.toolInvocations[0].result.link} target='_blank' className='p-2 bg-slate-900 rounded-md mr-2 text-white font-semibold'>Apply</a>
+                         <a href={m.toolInvocations[0].result.link} target='_blank' className='p-4 bg-slate-900 rounded-md mr-2 text-white font-semibold'>Apply</a>
                          {/* <JobButton/> */}
                       </>
                      

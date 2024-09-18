@@ -53,7 +53,7 @@ export default function Page() {
                 ) : (
                   <>
                     {/* <FontAwesomeIcon icon={faRobot} className='mr-2' /> */}
-                    <div className='flex'>
+                    <div className='flex mb-2'>
                       <Image src='/lion_head_silhouette_ByzJz.svg'
             height={25} width={25} alt="lion head silhouette"
             className='mr-2'/>

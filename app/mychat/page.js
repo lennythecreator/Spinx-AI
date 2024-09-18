@@ -54,7 +54,8 @@ export default function Page() {
                   </>
                 ) : (
                   <>
-                    <FontAwesomeIcon icon={faRobot} className='mr-2' />
+                    {/* <FontAwesomeIcon icon={faRobot} className='mr-2' /> */}
+                    <p className='text-lg'>🦁</p>
                     <span className='mx-2'>{m.content}</span>
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>

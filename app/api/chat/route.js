@@ -47,7 +47,7 @@ const getYearlySalary = async (job) => {
     }else{
       const payResults = json["salaries"];
       if (payResults && payResults.length > 0) {
-        resolve(payResults[0]); // Return only the first result
+        resolve(payResults[1]); // Return only the first result
       } else {
         resolve(null); // No jobs found
       }

@@ -93,15 +93,15 @@ export default function Component() {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">What Students Say</h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
-                <p className="text-gray-500 mb-4">"Spinx-AI helped me discover a career path I never even considered. I'm now interning at my dream company!"</p>
+                <p className="text-gray-500 mb-4">&quot; Spinx-AI helped me discover a career path I never even considered. I&apos;m now interning at my dream company!&quot;</p>
                 <p className="font-bold">- Alex, Computer Science Major</p>
               </div>
               <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
-                <p className="text-gray-500 mb-4">"The personalized advice I received was spot on. It's like having a career counselor in my pocket!"</p>
+                <p className="text-gray-500 mb-4">&quot;The personalized advice I received was spot on. It&apos;s like having a career counselor in my pocket!&quot;</p>
                 <p className="font-bold">- Sam, Business Major</p>
               </div>
               <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
-                <p className="text-gray-500 mb-4">"I was undecided about my major, but Spinx-AI helped me explore options and find my passion."</p>
+                <p className="text-gray-500 mb-4">&quot;I was undecided about my major, but Spinx-AI helped me explore options and find my passion.&quot;</p>
                 <p className="font-bold">- Jamie, Undeclared</p>
               </div>
             </div>

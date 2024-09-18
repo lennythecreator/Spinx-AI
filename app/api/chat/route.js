@@ -35,27 +35,53 @@ const getJobData = async (job) => {
   });
 };
 
-const getYearlySalary = async (job) => {
+const getJobId = async (job) => {
   const apiKey = process.env.NEXT_PUBLIC_SERP_API_KEY;
-  getJson({
-    engine: "google_jobs_listing",
-    q: job,
-    api_key: apiKey,
-  }, (json) => {
-    if (json.error) {
-      reject(json.error);
-    }else{
-      const payResults = json["salaries"];
-      if (payResults && payResults.length > 0) {
-        resolve(payResults[1]); // Return only the first result
+  if (!apiKey) {
+    throw new Error('API key is not available');
+  } return new Promise((resolve, reject) => {
+    getJson({
+      engine: "google_jobs",
+      q: job,
+      hl: "en",
+      api_key: apiKey,
+    }, (json) => {
+      if (json.error) {
+        reject(json.error);
       } else {
-        resolve(null); // No jobs found
+        const jobResults = json["jobs_results"];
+        if (jobResults && jobResults.length > 0) {
+          resolve(jobResults[0].job_id); // Return only the first result
+        } else {
+          resolve(null); // No jobs found
+        }
       }
-
-    }
-    console.log(json["salaries"]);
+    })
   });
 }
+const getYearlySalary = async (jobId) => {
+  const apiKey = process.env.NEXT_PUBLIC_SERP_API_KEY;
+  
+  return new Promise((resolve, reject) => {
+    getJson({
+      engine: "google_jobs_listing",
+      q: jobId,
+      api_key: apiKey,
+    }, (json) => {
+      if (json.error) {
+        reject(json.error);
+      } else {
+        const payResults = json["salaries"];
+        if (payResults && payResults.length > 0) {
+          resolve(payResults[1]); // Return the salary information
+        } else {
+          resolve(null); // No salary info found
+        }
+      }
+    });
+  });
+};
+
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
@@ -110,15 +136,25 @@ try{
             job: z.string().describe('The job title or keywords to search for.'),
           }),
           execute: async ({ job }) => {
-            console.log(`Searching for job: ${job}`);
             try {
-              const salaryData = await getYearlySalary(job);
-              if (salaryData) {
-                return {
-                  message: `The average salary for ${job} is ${salaryData.salary_from} to ${salaryData.salary_to} based on ${salaryData.source} \n`,
-                };
+              // First, get the job ID
+              const jobId = await getJobId(job); // Get the jobId from the search query
+          
+              console.log(`Searching for job: ${jobId}`);
+          
+              if (jobId) {
+                // Fetch the salary using the jobId
+                const salaryData = await getYearlySalary(jobId);
+                
+                if (salaryData) {
+                  return {
+                    message: `The average salary for ${job} is ${salaryData.salary_from} to ${salaryData.salary_to} based on ${salaryData.source} \n`,
+                  };
+                } else {
+                  return { message: 'No salary data found' };
+                }
               } else {
-                return { message: 'No salary data found' };
+                return { message: 'No job ID found for the given job query' };
               }
             } catch (error) {
               console.error(`Error fetching salary data: ${error}`);
@@ -145,7 +181,8 @@ try{
         model: openai('gpt-4-turbo'),
         system: `Show this salary to the user: ${findJobSalaryResult.message}`,
       });
-      console.error('searchJobResult or searchJobResult.message is undefined');
+      return salaryResult.toDataStreamResponse();
+      // console.error('searchJobResult or searchJobResult.message is undefined');
     } else {
       console.error('searchJobResult or searchJobResult.message is undefined');
     }

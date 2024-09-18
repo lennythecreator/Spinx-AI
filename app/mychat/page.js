@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faRobot, faUser } from '@fortawesome/free-solid-svg-icons';
 import {ToolInvocation} from 'ai';
 import Link from 'next/link';
+// ok
 // import { useLink } from '../customHooks';
 // export const JobButton = ()=>{
 //   const {link} = useLink();

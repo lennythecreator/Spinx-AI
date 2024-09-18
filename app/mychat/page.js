@@ -63,7 +63,7 @@ export default function Page() {
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
                          <span>{m.toolInvocations[0].result.message}</span>
-                         <a href={m.toolInvocations[0].result.link} target='_blank' className='p-4 bg-slate-900 rounded-md mr-2 text-white font-semibold'>Apply</a>
+                         <a href={m.toolInvocations[0].result.link} target='_blank' className='p-4 bg-slate-900 rounded-md mr-2 text-white font-semibold block'>Apply</a>
                          {/* <JobButton/> */}
                       </>
                      

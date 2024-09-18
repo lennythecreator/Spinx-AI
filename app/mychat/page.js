@@ -1,18 +1,36 @@
-'use client';
+"use client";
 import React from 'react'
-
 import { Button } from '@/components/ui/button';
 import { useChat } from 'ai/react';
-import { useState, useEffect, useRef} from 'react';
+import JobCard from '@/components/ui/JobCard';
 import axios from 'axios'; // Import axios for making HTTP requests
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faRobot, faUser } from '@fortawesome/free-solid-svg-icons';
-
+import {ToolInvocation} from 'ai';
+import Link from 'next/link';
+// import { useLink } from '../customHooks';
+// export const JobButton = ()=>{
+//   const {link} = useLink();
+//   console.log(link);
+//   return(
+//     <a href={link}>Apply here</a>
+//   )
+// }
 export default function Page() {
   const { messages, input, stop, isLoading, setMessages, handleInputChange, handleSubmit } = useChat()
   const handleDelete = (id) => {
     setMessages(messages.filter(message => message.id !== id));
   };
+  console.log(messages);
+  useChat({
+    onToolCall: async ({toolCall}) => {
+      if (toolCall.tool === 'jobSearch') {
+        return <JobCard job={toolCall.parameters.job} />;
+      }
+    }
+  });
+  
+
   return (
     <div className='flex flex-col h-full'>
         <header className='flex flex-row items-center p-4'>
@@ -37,6 +55,15 @@ export default function Page() {
                   <>
                     <FontAwesomeIcon icon={faRobot} className='mr-2' />
                     <span className='mx-2'>{m.content}</span>
+                    {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
+                      <>
+                         <span>{m.toolInvocations[0].result.message}</span>
+                         <a href={m.toolInvocations[0].result.link} target='_blank' className='p-2 bg-slate-900 rounded-md mr-2 text-white font-semibold'>Apply</a>
+                         {/* <JobButton/> */}
+                      </>
+                     
+                  
+                )}
                     <Button variant="outline" size="icon" className='ml-auto' onClick={() => handleDelete(m.id)}><FontAwesomeIcon icon={faClose} className='h-4 w-4' /></Button>
                   </>
                 )}

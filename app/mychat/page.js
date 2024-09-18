@@ -46,7 +46,7 @@ export default function Page() {
         </header>
         <div className='flex flex-col h-full w-[70vw] overflow-y-auto mx-auto'>
           {messages.map(m => (
-              <div key={m.id} className={`whitespace-pre-wrap my-2 shadow-sm ${m.role === 'user' ? 'bg-green-500 bg-opacity-50' : 'bg-slate-300'} rounded-xl p-4`}>
+              <div key={m.id} className={`whitespace-pre-wrap my-2 shadow-sm ${m.role === 'user' ? 'bg-white-100' : 'bg-slate-300'} rounded-xl p-4`}>
                 {m.role === 'user' ? (
                   <>
                     <FontAwesomeIcon icon={faUser} className='mr-2' />

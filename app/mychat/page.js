@@ -53,9 +53,9 @@ export default function Page() {
                 ) : (
                   <>
                     {/* <FontAwesomeIcon icon={faRobot} className='mr-2' /> */}
-                    <span className=" flex gap-2 items-center ml-2 text-2xl font-bold text-primary sm:flex-row"> <Image src='/lion_head_silhouette_ByzJz.svg'
+                    <span className=""> <Image src='/lion_head_silhouette_ByzJz.svg'
           height={25} width={25} alt="lion head silhouette"
-          /> Spinx-AI</span>
+          /></span>
                     <span className='mx-2'>{m.content}</span>
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>

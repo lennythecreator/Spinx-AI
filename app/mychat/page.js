@@ -5,7 +5,7 @@ import { useChat } from 'ai/react';
 import JobCard from '@/components/ui/JobCard';
 import axios from 'axios'; // Import axios for making HTTP requests
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose, faRobot, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faPaperPlane, faRobot, faUser } from '@fortawesome/free-solid-svg-icons';
 import {ToolInvocation} from 'ai';
 import Link from 'next/link';
 // ok
@@ -46,7 +46,7 @@ export default function Page() {
         </header>
         <div className='flex flex-col h-full w-[70vw] overflow-y-auto mx-auto'>
           {messages.map(m => (
-              <div key={m.id} className={`whitespace-pre-wrap my-2 ${m.role === 'user' ? 'bg-green-500 bg-opacity-50' : 'bg-slate-300'} rounded p-4`}>
+              <div key={m.id} className={`whitespace-pre-wrap my-2 shadow-sm ${m.role === 'user' ? 'bg-green-500 bg-opacity-50' : 'bg-slate-300'} rounded-xl p-4`}>
                 {m.role === 'user' ? (
                   <>
                     <FontAwesomeIcon icon={faUser} className='mr-2' />
@@ -76,13 +76,14 @@ export default function Page() {
               </Button>
             )} 
         </div>
-        <form  onSubmit={handleSubmit} className=' flex flex-col h-24 bg-muted'>
+        <form  onSubmit={handleSubmit} className=' flex  p-3 w-[80vw] mx-auto h-24 bg-muted items-center border rounded-t-xl sm:w-[60vw] gap-4'>
           <input
-              className=" mt-2 mx-auto w-[70vw] p-2 border border-gray-300 rounded shadow-xl"
+              className=" mt-2 h-11 mx-auto w-[60vw] p-1 border border-gray-300 rounded shadow-xl"
               value={input}
               placeholder="Say something..."
               onChange={handleInputChange}
             />
+          <Button onClick={handleSubmit} className='hover:bg-slate-500 my-auto'><FontAwesomeIcon icon={faPaperPlane} className='hover:text-gray-900'/></Button>
         </form>
     </div>
   )

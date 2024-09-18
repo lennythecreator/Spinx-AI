@@ -53,10 +53,10 @@ export default function Page() {
                 ) : (
                   <>
                     {/* <FontAwesomeIcon icon={faRobot} className='mr-2' /> */}
-                    <span className=""> <Image src='/lion_head_silhouette_ByzJz.svg'
+                    
+                    <span className='mx-2'><Image src='/lion_head_silhouette_ByzJz.svg'
           height={25} width={25} alt="lion head silhouette"
-          /></span>
-                    <span className='mx-2'>{m.content}</span>
+           className='mr-2'/>{m.content}</span>
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
                          <span>{m.toolInvocations[0].result.message}</span>

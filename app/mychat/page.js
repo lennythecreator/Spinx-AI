@@ -78,7 +78,7 @@ export default function Page() {
         </div>
         <form  onSubmit={handleSubmit} className=' flex  p-3 w-[80vw] mx-auto h-24 bg-muted items-center border rounded-t-xl sm:w-[60vw] gap-4'>
           <input
-              className=" mt-2 h-11 mx-auto w-[60vw] p-1 border border-gray-300 rounded shadow-xl"
+              className=" mt-2 h-11 mx-auto w-[60vw] p-1  border border-gray-300 rounded shadow-xl outline-none "
               value={input}
               placeholder="Say something..."
               onChange={handleInputChange}

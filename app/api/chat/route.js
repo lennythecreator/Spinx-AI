@@ -172,7 +172,7 @@ try{
       console.log(`Tool results: ${JSON.stringify(searchJobResult.message)}`);
       const jobResult = await streamText({
         model: openai('gpt-4-turbo'),
-        system: `Show this job to the user and summarize the job description to make it short: ${searchJobResult.message}`,
+        system: `Show this job to the user and summarize the job description to make it short and not too long give the key items role,responciblities and skills: ${searchJobResult.message}`,
       });
       return jobResult.toDataStreamResponse();
     } else if ( findJobSalaryResult && findJobSalaryResult.message){

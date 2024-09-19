@@ -4,14 +4,12 @@ import React from 'react';
 const JobCard = ({ job }) => {
   return (
     <div style={styles.card}>
-      <h2>{job.title}</h2>
-      <p><strong>Company:</strong> {job.company_name}</p>
-      <p><strong>Location:</strong> {job.location}</p>
-      <p><strong>Posted At:</strong> {job.posted_at}</p>
-      <p><strong>Schedule Type:</strong> {job.schedule_type}</p>
-      <p><strong>Paid Time Off:</strong> {job.paid_time_off ? 'Yes' : 'No'}</p>
-      <p>{job.description}</p>
-      <a href={job.link} target="_blank" rel="noopener noreferrer">Apply Here</a>
+      <h3>Skills you need</h3>
+      <ul>
+        {job.skills.map(skill => (
+          <li key={skill}>{skill}</li>
+        ))}
+      </ul>
     </div>
   );
 };

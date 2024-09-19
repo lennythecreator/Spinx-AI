@@ -3,12 +3,14 @@ import React from 'react'
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useChat } from 'ai/react';
+import { useState } from 'react';
 import JobCard from '@/components/ui/JobCard';
 import axios from 'axios'; // Import axios for making HTTP requests
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faPaperPlane, faRobot, faUser } from '@fortawesome/free-solid-svg-icons';
 import {ToolInvocation} from 'ai';
 import Link from 'next/link';
+import { streamJobSkills } from '../actions/generateJob';
 
 export default function Page() {
   const { messages, input, stop, isLoading, setMessages, handleInputChange, handleSubmit } = useChat()
@@ -69,6 +71,7 @@ export default function Page() {
                      
                   
                 )}
+                
                     <Button variant="outline" size="icon" className='ml-auto' onClick={() => handleDelete(m.id)}><FontAwesomeIcon icon={faClose} className='h-4 w-4' /></Button>
                   </>
                 )}

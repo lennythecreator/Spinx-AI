@@ -71,9 +71,9 @@ const getYearlySalary = async (jobId) => {
       if (json.error) {
         reject(json.error);
       } else {
-        const payResults = json["salaries"];
+        const payResults = json["apply_options"];
         if (payResults && payResults.length > 0) {
-          resolve(payResults[1]); // Return the salary information
+          resolve(payResults.salaries[1]); // Return the salary information
         } else {
           resolve(null); // No salary info found
         }

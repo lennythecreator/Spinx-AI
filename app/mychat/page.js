@@ -127,11 +127,14 @@ export default function Page() {
                       <Image src='/lion_head_silhouette_ByzJz.svg'
             height={25} width={25} alt="lion head silhouette"
             className='mr-2 mb-auto'/>
-                      <span className='mx-2'>{m.content}{m.toolInvocations[0].result}</span>
+                      <span className='mx-2'>{m.content}</span>
                     </div>
                     
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
+                          {m.toolInvocations[0].result.message && (
+                            <span>{m.toolInvocations[0].result.message}</span> // Display job description
+                          )}
                           {m.toolInvocations[0].result?.salary && (
                             <div className='p-4 bg-slate-50 rounded-xl my-1'>
                               <h1 className='text-lg font-semibold border-b py-2'>{capitalizeEachWord(m.toolInvocations[0].result.title)}</h1>

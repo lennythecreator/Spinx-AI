@@ -61,7 +61,7 @@ const getJobId = async (job) => {
 }
 const getYearlySalary = async (jobId) => {
   const apiKey = process.env.NEXT_PUBLIC_SERP_API_KEY;
-  
+
   return new Promise((resolve, reject) => {
     getJson({
       engine: "google_jobs_listing",
@@ -69,18 +69,56 @@ const getYearlySalary = async (jobId) => {
       api_key: apiKey,
     }, (json) => {
       if (json.error) {
+        console.error(`Error fetching salary data: ${json.error}`);
         reject(json.error);
       } else {
-        const payResults = json["apply_options"];
-        if (payResults && payResults.length > 0) {
-          resolve(payResults.salaries[1]); // Return the salary information
+        const salaries = json["salaries"];
+        //console.log(`Salaries: ${JSON.stringify(salaries)}`);
+        if (salaries && salaries.length > 0) {
+          //console.log(`Salary data: ${JSON.stringify(salaries[0])}`);
+          resolve(salaries[0]); // Return the first salary information
         } else {
-          resolve(null); // No salary info found
+          console.log('No sufficient salary info found');
+          resolve(null); // No sufficient salary info found
         }
       }
     });
   });
 };
+
+//Allow for video search
+const getVideo = async(video) =>{
+  const Api_key = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  const query = video;
+  const maxResults = 1;
+  console.log('starting');
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&maxResults=${maxResults}&key=${Api_key}`;
+  try{
+      const response = await fetch(url);
+      const data = await response.json();
+      const videos = data.items;
+      
+      // Check if the response contains video data
+      console.log('API response:', data);
+
+      if (videos && videos.length > 0){
+        const videoData = videos[0];
+        console.log(`Title: ${videoData.snippet.title}`);
+        console.log(`Video ID: ${videoData.id.videoId}`);
+        console.log(`Thumbnail: ${videoData.snippet.thumbnails.default.url}`);
+        return videoData;
+      }else{
+        console.log('no video data found')
+        return null
+      }
+  }catch(error){
+    console.error('error', error)
+    return null
+  }
+  
+    
+}
+
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -94,7 +132,7 @@ try{
   const result = await streamText({
     model: openai('gpt-4-turbo'),
     messages: convertToCoreMessages(messages),
-    system: 'You are a conversational AI assistant Spinx, meant to help students navigate their careers and majors. You can answer questions about majors, careers, and the job market. You can also provide advice on how to succeed in college and the workforce. Another one of your features is the ability to generate a road map showing users the skills and tools they need to learn for a particualr career. Do not answer anything unrelated to these topics. Don\'t give super lenghty responses, keep it short and sweet. avoid using \'*\' in your responses. return any links you find in a way that the user can click on them.',
+    system: 'You are a conversational AI assistant Spinx, meant to help students navigate their careers and majors. You can answer questions about majors, careers, and the job market. You can also provide advice on how to succeed in college and the workforce. Another one of your features is the ability to generate a road map showing users the skills and tools they need to learn for a particualr career. Do not answer anything unrelated to these topics. Don\'t give super lenghty responses, keep it short and sweet. avoid using \'*\' in your responses. You also have the ablitiy to rate the persons resume if they upload it. Also if they searched for a job then rate their result me based on the desscription.Score the resume based on keyword matching, relevant experience, education, and certifications, while considering achievements, clarity, and ATS compatibility. Focus on how well the resume aligns with the job description, ensuring the use of quantifiable results, proper formatting, and tailored content for the role. example: Rating{example/100} with a short explanation.',
     temperature: 0.8,
     tools:{// client-side tool that starts user interaction:
         askForConfirmation: {
@@ -139,16 +177,20 @@ try{
             try {
               // First, get the job ID
               const jobId = await getJobId(job); // Get the jobId from the search query
-          
-              console.log(`Searching for job: ${jobId}`);
+              console.log(`Searching for job: ${job}`);
+              console.log(`Job ID retrieved: ${jobId}`);
+              //console.log(`Searching for job: ${jobId}`);
           
               if (jobId) {
                 // Fetch the salary using the jobId
                 const salaryData = await getYearlySalary(jobId);
                 
                 if (salaryData) {
+                  console.log(`Salary data: ${JSON.stringify(salaryData)}`);
                   return {
-                    message: `The average salary for ${job} is ${salaryData.salary_from} to ${salaryData.salary_to} based on ${salaryData.source} \n`,
+                    title:job,
+                    source:salaryData.source,
+                    message: `The average salary for ${job} is $${salaryData.salary_from} to $${salaryData.salary_to} based on ${salaryData.source} \n`,
                   };
                 } else {
                   return { message: 'No salary data found' };
@@ -162,32 +204,35 @@ try{
             }
           },
         },
+        findVideo:{
+          description: 'search for a video based on a query when the users ask where they can learn more about a particular thing.',
+          parameters: z.object({
+            video: z.string().describe('The video title or keywords to search for.'),
+          }),
+          execute: async({video}) => {
+            console.log('starting search',video);
+            const videoData = await getVideo(video)
+            // console.log(`searching for vide: ${videoData.title}`)
+            if (videoData){
+              console.log('Video found:', videoData.snippet.title);
+              return{
+                message: `Here's a video ${videoData.snippet.title}`,
+                thumbnail: videoData.snippet.thumbnails.default.url,
+                videoId: videoData.id.videoId,
+                title: videoData.snippet.title,
+              }
+            }else{
+              return{
+                message: "Sorry no video found",
+              }
+              
+            }
+          }
+        },
+
       }
   });
 
-  if (result.toolResults && result.toolCalls) {
-    const searchJobResult = result.toolResults.searchJob;
-    const findJobSalaryResult = result.toolResults.findJobSalary;
-    if (searchJobResult && searchJobResult.message) {
-      console.log(`Tool results: ${JSON.stringify(searchJobResult.message)}`);
-      const jobResult = await streamText({
-        model: openai('gpt-4-turbo'),
-        system: `Show this job to the user and summarize the job description to make it short and not too long give the key items role,responciblities and skills: ${searchJobResult.message}`,
-      });
-      return jobResult.toDataStreamResponse();
-    } else if ( findJobSalaryResult && findJobSalaryResult.message){
-      console.log(`Tool results: ${JSON.stringify(findJobSalaryResult.message)}`);
-      const salaryResult = await streamText({
-        model: openai('gpt-4-turbo'),
-        system: `Show this salary to the user: ${findJobSalaryResult.message}`,
-      });
-      return salaryResult.toDataStreamResponse();
-      // console.error('searchJobResult or searchJobResult.message is undefined');
-    } else {
-      console.error('searchJobResult or searchJobResult.message is undefined');
-    }
-
-  }
 
   return result.toDataStreamResponse();
 }catch (error) {

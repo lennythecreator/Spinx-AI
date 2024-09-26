@@ -3,30 +3,98 @@ import React from 'react'
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useChat } from 'ai/react';
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import JobCard from '@/components/ui/JobCard';
 import axios from 'axios'; // Import axios for making HTTP requests
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose, faPaperPlane, faRobot, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faPaperPlane, faRobot, faUser,faPlus } from '@fortawesome/free-solid-svg-icons';
 import {ToolInvocation} from 'ai';
 import Link from 'next/link';
-import { streamJobSkills } from '../actions/generateJob';
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
+GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
+
 
 export default function Page() {
+  const [images, setImages] = useState([]);
+  const fileInputRef = useRef(null);
   const { messages, input, stop, isLoading, setMessages, handleInputChange, handleSubmit } = useChat()
   const handleDelete = (id) => {
     setMessages(messages.filter(message => message.id !== id));
   };
-  console.log(messages);
-  useChat({
-    onToolCall: async ({toolCall}) => {
-      if (toolCall.tool === 'jobSearch') {
-        return <JobCard job={toolCall.parameters.job} />;
-      }
-    }
-  });
   
+  const handleFormSubmit = (event) => {
+      event.preventDefault();
 
+      // Prepare experimental attachments if images are present
+      const experimental_attachments = images.map((imageUrl, index) => ({
+          url: imageUrl,
+          contentType: 'image/png',
+          name: `page-${index + 1}.png`,
+      }));
+
+      // Check if there is text input or images to send
+      if (!input.trim() && experimental_attachments.length === 0) {
+          console.error('No input or images to send to the model.');
+          return;
+      }
+
+      // Send the message and attachments
+      handleSubmit(event, {
+          experimental_attachments,
+          text: input.trim(), // Send the text input
+      });
+
+      // Clear images and input after submission
+      setImages([]);
+      if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+      }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
+    if (file && file.type === 'application/pdf') {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
+
+      fileReader.onload = async () => {
+        const typedArray = new Uint8Array(fileReader.result);
+        try {
+          const pdf = await getDocument(typedArray).promise;
+
+          const newImages = [];
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 1 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({ canvasContext: context, viewport }).promise;
+
+            const imageUrl = canvas.toDataURL(); // Convert the page to an image
+            newImages.push(imageUrl); // Store the image URL
+          }
+
+          setImages(newImages); // Update state with the new image URLs
+        } catch (error) {
+          console.error('Error processing PDF:', error);
+        }
+      };
+
+      fileReader.onerror = () => {
+        console.error('Error reading file:', fileReader.error);
+      };
+    } else {
+      console.error('Please upload a valid PDF file.');
+    }
+  };
+  function capitalizeEachWord(text) {
+    if (!text) return text;
+    return text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
+  console.log(messages)
   return (
     <div className='flex flex-col h-full'>
         <header className='flex flex-row items-center p-4 border-b'>
@@ -64,9 +132,43 @@ export default function Page() {
                     
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
-                         <span>{m.toolInvocations[0].result.message}</span>
-                         <a href={m.toolInvocations[0].result.link} target='_blank' className='w-28 p-3 bg-slate-900 rounded-md mr-2 text-white text-center mx-2 cursor-pointer font-semibold block'>Apply</a>
-                         {/* <JobButton/> */}
+                          {m.toolInvocations[0].result?.salary && (
+                            <div className='p-4 bg-slate-50 rounded-xl my-1'>
+                              <h1 className='text-lg font-semibold border-b py-2'>{capitalizeEachWord(m.toolInvocations[0].result.title)}</h1>
+                              <p className='py-2'>{m.toolInvocations[0].result.source}</p>
+                              <span>{m.toolInvocations[0].result.message}</span>
+                            </div>
+                          )}
+                         
+                         {m.toolInvocations[0].result?.link && (
+                            <a 
+                              href={m.toolInvocations[0].result.link} 
+                              target='_blank' 
+                              className='w-28 p-3 bg-slate-900 rounded-md mr-2 text-white text-center mx-2 cursor-pointer font-semibold block'
+                            >
+                              Apply
+                            </a>
+                          )}
+                        
+                        {m.toolInvocations[0].result?.videoId && (
+                          <>
+                            <div className='p-4 bg-white rounded-xl my-3 w-[550px]'>
+                              <h1 className='text-xl font-medium my-3 border-b'>{m.toolInvocations[0].result.title}</h1>
+                              <iframe
+                              className='w-full'
+                              height="315"
+                              src={`https://www.youtube.com/embed/${m.toolInvocations[0].result.videoId}`}
+                              title="YouTube Video"
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            ></iframe>
+                            </div>
+                          </>
+                          
+                        )}
+                        
+                         
                       </>
                      
                   
@@ -83,14 +185,26 @@ export default function Page() {
               </Button>
             )} 
         </div>
-        <form  onSubmit={handleSubmit} className=' flex  p-3 w-[80vw] mx-auto h-24 bg-muted items-center border rounded-t-xl sm:w-[60vw] gap-4'>
+        <form  onSubmit={handleFormSubmit} className=' flex  p-3 w-[80vw] mx-auto h-24 bg-muted items-center border rounded-t-xl sm:w-[60vw] gap-4'>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          ref={fileInputRef}
+          className="hidden"
+          accept="application/pdf"
+          id='imgInput'
+        />
+      
+        <div className="relative flex items-center w-full">
+          <label className='flex items-center' htmlFor='imgInput'><FontAwesomeIcon icon={faPlus} className="absolute left-2 text-gray-500" /></label>
           <input
-              className=" mt-2 h-11 mx-auto w-[60vw] p-1  border border-gray-300 rounded shadow-xl outline-none "
-              value={input}
-              placeholder="Say something..."
-              onChange={handleInputChange}
-            />
-          <Button onClick={handleSubmit} className='hover:bg-slate-500 my-auto'><FontAwesomeIcon icon={faPaperPlane} className='hover:text-gray-900'/></Button>
+            className=" flex items-center my-auto h-11 mx-auto w-full p-1 border border-gray-300 rounded shadow-xl outline-none pl-10"
+            value={input}
+            placeholder="Say something..."
+            onChange={handleInputChange}
+          />
+        </div>
+          <Button onClick={handleFormSubmit} className='hover:bg-slate-500 my-auto'><FontAwesomeIcon icon={faPaperPlane} className='hover:text-gray-900'/></Button>
         </form>
     </div>
   )

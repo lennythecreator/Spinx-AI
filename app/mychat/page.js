@@ -213,7 +213,7 @@ export default function Page() {
                               <CardContent>
                                 <iframe
                                 className='w-full rounded-lg'
-                                height=""
+                                height="315"
                                 src={`https://www.youtube.com/embed/${m.toolInvocations[0].result.videoId}`}
                                 title="YouTube Video"
                                 frameBorder="0"

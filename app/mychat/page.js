@@ -205,7 +205,7 @@ export default function Page() {
                         {m.toolInvocations[0].result.videoId && (
                           <>
                             
-                            <Card className='w-[550px] my-4'>
+                            <Card className='w-full sm:w-[550px] my-4'>
                               <CardHeader>
                                 <CardTitle>{m.toolInvocations[0].result.title}</CardTitle>
                                 <CardDescription>Found a video!</CardDescription>
@@ -213,7 +213,7 @@ export default function Page() {
                               <CardContent>
                                 <iframe
                                 className='w-full rounded-lg'
-                                height="315"
+                                height=""
                                 src={`https://www.youtube.com/embed/${m.toolInvocations[0].result.videoId}`}
                                 title="YouTube Video"
                                 frameBorder="0"

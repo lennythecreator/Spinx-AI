@@ -133,7 +133,7 @@ export default function Page() {
                     
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
-                          {m.toolInvocations[0].result.job && (
+                          {m.toolInvocations[0].result.message && (
                             <span>{m.toolInvocations[0].result.message}</span> // Display job description
                           )}
                           {m.toolInvocations[0].result?.salary && (

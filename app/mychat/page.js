@@ -133,15 +133,22 @@ export default function Page() {
                     
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
-                          {m.toolInvocations[0].result.message && (
+                          {m.toolInvocations[0].result.job && (
                             <span>{m.toolInvocations[0].result.message}</span> // Display job description
                           )}
                           {m.toolInvocations[0].result?.salary && (
-                            <div className='p-4 bg-slate-50 rounded-xl my-1'>
-                              <h1 className='text-lg font-semibold border-b py-2'>{capitalizeEachWord(m.toolInvocations[0].result.title)}</h1>
-                              <p className='py-2'>{m.toolInvocations[0].result.source}</p>
-                              <span>{m.toolInvocations[0].result.message}</span>
-                            </div>
+                            // <div className='p-4 bg-slate-50 rounded-xl my-1'>
+                            //   <h1 className='text-lg font-semibold border-b py-2'>{capitalizeEachWord(m.toolInvocations[0].result.title)}</h1>
+                            //   <p className='py-2'>{m.toolInvocations[0].result.source}</p>
+                            //   <span>{m.toolInvocations[0].result.message}</span>
+                            // </div>
+                            <Card>
+                              <CardHeader>
+                                <CardTitle>{capitalizeEachWord(m.toolInvocations[0].result.title)}</CardTitle>
+                                <CardDescription>{m.toolInvocations[0].result.source}</CardDescription>
+                              </CardHeader>
+                              <CardContent>{m.toolInvocations[0].result.message}</CardContent>
+                            </Card>
                           )}
                          
                          {m.toolInvocations[0].result?.link && (
@@ -157,7 +164,7 @@ export default function Page() {
                         {m.toolInvocations[0].result?.videoId && (
                           <>
                             
-                            <Card className='w-[550px]'>
+                            <Card className='w-[550px] my-4'>
                               <CardHeader>
                                 <CardTitle>{m.toolInvocations[0].result.title}</CardTitle>
                                 <CardDescription>Found a video!</CardDescription>

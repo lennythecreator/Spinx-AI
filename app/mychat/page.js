@@ -133,9 +133,9 @@ export default function Page() {
                     
                     {m.toolInvocations && m.toolInvocations[0] && m.toolInvocations[0].result && (
                       <>
-                          {m.toolInvocations[0].result.message && (
+                          {/* {m.toolInvocations[0].result.message && (
                             <span>{m.toolInvocations[0].result.message}</span> // Display job description
-                          )}
+                          )} */}
                           {m.toolInvocations[0].result?.salary && (
                             // <div className='p-4 bg-slate-50 rounded-xl my-1'>
                             //   <h1 className='text-lg font-semibold border-b py-2'>{capitalizeEachWord(m.toolInvocations[0].result.title)}</h1>

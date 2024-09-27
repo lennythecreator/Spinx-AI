@@ -12,6 +12,7 @@ import {ToolInvocation} from 'ai';
 import Link from 'next/link';
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 
@@ -136,6 +137,25 @@ export default function Page() {
                           {/* {m.toolInvocations[0].result.message && (
                             <span>{m.toolInvocations[0].result.message}</span> // Display job description
                           )} */}
+                          {m.toolInvocations[0].result?.job && (
+                            <Card>
+                              <CardHeader>
+                                <CardTitle>{m.toolInvocations[0].result.job}</CardTitle>
+                                <CardDescription>{}</CardDescription>
+                              </CardHeader>
+                              <CardDescription>
+                                <Accordion>
+                                  <AccordionItem>
+                                    <AccordionTrigger>Description</AccordionTrigger>
+                                    <AccordionContent>
+                                      {m.toolInvocations[0].result.jobDescription}
+                                    </AccordionContent>
+                                  </AccordionItem>
+                                </Accordion>
+                              </CardDescription>
+                              
+                            </Card>
+                          )}
                           {m.toolInvocations[0].result?.message && (
                             // <div className='p-4 bg-slate-50 rounded-xl my-1'>
                             //   <h1 className='text-lg font-semibold border-b py-2'>{capitalizeEachWord(m.toolInvocations[0].result.title)}</h1>

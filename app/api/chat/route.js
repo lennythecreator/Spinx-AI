@@ -156,8 +156,10 @@ try{
               if (jobData) {
                 // setLink(jobData.apply_options[0].link);
                 return {
-                  message: `Job found ${jobData.title} at ${jobData.location} with description: ${jobData.description} \n`,
+                  message: `Job found ${jobData.title} at ${jobData.location}`,
                   link: jobData.apply_options[0].link,
+                  job:`${jobData.title}`,
+                  jobDescription: `${jobData.description}`
                 };
               } else {
                 return { message: 'No jobs found' };

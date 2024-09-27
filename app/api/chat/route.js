@@ -156,10 +156,14 @@ try{
               if (jobData) {
                 // setLink(jobData.apply_options[0].link);
                 return {
-                  message: `Job found ${jobData.title} at ${jobData.location}`,
+                  title: `Job found ${jobData.title} at ${jobData.location}`,
                   link: jobData.apply_options[0].link,
                   job:`${jobData.title}`,
-                  jobDescription: `${jobData.description}`
+                  jobDescription: `${jobData.description}`,
+                  company: `${jobData.company_name}`,
+                  location:  `${jobData.location}`,
+                  qualifications: `${jobData.job_highlights[0].items}`,
+                  thumbnail:`${jobData.thumbnail}`
                 };
               } else {
                 return { message: 'No jobs found' };
@@ -218,7 +222,7 @@ try{
             if (videoData){
               console.log('Video found:', videoData.snippet.title);
               return{
-                message: `Here's a video ${videoData.snippet.title}`,
+                
                 thumbnail: videoData.snippet.thumbnails.default.url,
                 videoId: videoData.id.videoId,
                 title: videoData.snippet.title,

@@ -11,6 +11,7 @@ import { faClose, faPaperPlane, faRobot, faUser,faPlus } from '@fortawesome/free
 import {ToolInvocation} from 'ai';
 import Link from 'next/link';
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 
@@ -155,18 +156,24 @@ export default function Page() {
                         
                         {m.toolInvocations[0].result?.videoId && (
                           <>
-                            <div className='p-4 bg-white rounded-xl my-3 w-[550px]'>
-                              <h1 className='text-xl font-medium my-3 border-b'>{m.toolInvocations[0].result.title}</h1>
-                              <iframe
-                              className='w-full'
-                              height="315"
-                              src={`https://www.youtube.com/embed/${m.toolInvocations[0].result.videoId}`}
-                              title="YouTube Video"
-                              frameBorder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            ></iframe>
-                            </div>
+                            
+                            <Card className='w-[550px]'>
+                              <CardHeader>
+                                <CardTitle>{m.toolInvocations[0].result.title}</CardTitle>
+                                <CardDescription>Found a video!</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <iframe
+                                className='w-full'
+                                height="315"
+                                src={`https://www.youtube.com/embed/${m.toolInvocations[0].result.videoId}`}
+                                title="YouTube Video"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              ></iframe>
+                              </CardContent>
+                            </Card>
                           </>
                           
                         )}

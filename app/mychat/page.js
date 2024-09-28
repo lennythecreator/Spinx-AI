@@ -201,6 +201,43 @@ export default function Page() {
                               Apply
                             </a>
                           )} */}
+                          {m.toolInvocations[0].result?.bookTitle && (
+                            <Card>
+                              <CardHeader>
+                                <div className='flex items-center gap-4'>
+                                {m.toolInvocations[0].result.bookThumbnail && (
+                                    <Image
+                                      src={m.toolInvocations[0].result.bookThumbnail}
+                                      width={70} 
+                                      height={90} 
+                                      alt='Book cover' 
+                                    />
+                                  )}
+                                   <div>
+                                  <CardTitle>{m.toolInvocations[0].result.bookTitle}</CardTitle>
+                                  <CardDescription>{m.toolInvocations[0].result.authors.join(', ')}</CardDescription>
+                                </div>
+                                </div>
+                               
+                                
+                              </CardHeader>
+                              <CardContent>
+                                <p>{m.toolInvocations[0].result.ai_res}</p>
+                                <Accordion type="single" collapsible className='my-3'>
+                                <AccordionItem value='item-1'>
+                                  <AccordionTrigger className=' font-medium'>Description</AccordionTrigger>
+                                    <AccordionContent className=''>
+                                      {m.toolInvocations[0].result.bookDescription}
+                  
+                                      
+                                    </AccordionContent>
+
+                                  </AccordionItem>
+                                </Accordion>
+                                <Button><a href={m.toolInvocations[0].result.bookLink} target='_blank'>Read</a></Button>
+                              </CardContent>
+                            </Card>
+                          )}
                         
                         {m.toolInvocations[0].result.videoId && (
                           <>
@@ -258,7 +295,7 @@ export default function Page() {
         />
       
         <div className="relative flex items-center w-full">
-          <label className='flex items-center' htmlFor='imgInput'><FontAwesomeIcon icon={faPlus} className="absolute left-2 text-gray-500" /></label>
+          <label className='flex items-center' htmlFor='imgInput'><FontAwesomeIcon icon={faPlus} className="absolute left-2 text-gray-500 w-4 h-4" /></label>
           <input
             className=" flex items-center my-auto h-11 mx-auto w-full p-1 border border-gray-300 rounded shadow-xl outline-none pl-10"
             value={input}

@@ -86,6 +86,23 @@ const getYearlySalary = async (jobId) => {
   });
 };
 
+//search for company data
+const getBooks = async(book) => {
+ const Api_key = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+ const query = book;
+ const maxResults = 1;
+ const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${maxResults}&key=${Api_key}`
+ try{
+  const response = await fetch(url);
+  const data = await response.json();
+  const books = data.items ? data.items[0]:null;
+  console.log('response : ', books)
+  return books; // Return the first book
+ }catch(error){
+    console.error('failed', error)
+ }
+}
+
 //Allow for video search
 const getVideo = async(video) =>{
   const Api_key = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
@@ -234,6 +251,25 @@ try{
               
             }
           }
+        },
+        findBook:{
+          description:'search for a book if the user wants to learn or read about a particular topic related to a career.',
+          parameters:z.object({
+            book: z.string().describe('The book name or keywords to search for.'),
+          }),
+          execute: async({book})=>{
+            console.log('searching for book on' , book)
+            const bookItem = await getBooks(book);
+            
+            return{
+              ai_res: `I think this would be a good read!`,
+              bookTitle: bookItem.volumeInfo.title,
+              authors: bookItem.volumeInfo.authors || ['Unknown'],
+              bookDescription: bookItem.volumeInfo.description || 'No description available.',
+              bookThumbnail: bookItem.volumeInfo.imageLinks?.thumbnail || '', // Handle missing thumbnail
+              bookLink: bookItem.volumeInfo.infoLink, // Link to the book's info page,
+            }
+          },
         },
 
       }

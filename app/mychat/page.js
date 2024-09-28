@@ -105,7 +105,7 @@ export default function Page() {
           
           <span className=" flex gap-2 items-center ml-2 text-2xl font-bold text-primary sm:flex-row"> <Image src='/lion_head_silhouette_ByzJz.svg'
           height={30} width={30} alt="lion head silhouette"
-          /> Spinx-AI</span>
+          /> Sphinx-AI</span>
         </Link>
           <nav className='ml-auto '>
             <ul className='flex flex-row gap-4'>
